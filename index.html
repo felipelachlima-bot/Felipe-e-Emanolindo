@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Apoio ao Estudante</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <h1>🤝 Portal do Estudante</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#empatia">Convivência & Empatia</a></li>
+                <li><a href="#apoio">Apoio & Acolhimento</a></li>
+                <li><a href="#mural">Mural Interativo</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="inicio" class="hero">
+        <h2>Um espaço seguro para você</h2>
+        <p>Incentivando o respeito, a empatia e o acolhimento dentro da nossa comunidade escolar.</p>
+    </section>
+
+    <main class="container">
+        <section id="empatia" class="card">
+            <h2> Respeito e Empatia na Escola</h2>
+            <p>Construir um ambiente escolar saudável depende de todos nós. Praticar a empatia significa se colocar no lugar do outro antes de julgar ou agir.</p>
+            <ul>
+                <li><strong>Escute sem julgar:</strong> Dê atenção ao colega que precisa conversar.</li>
+                <li><strong>Diga não ao bullying:</strong> Não seja cúmplice de brincadeiras que machucam.</li>
+                <li><strong>Valorize as diferenças:</strong> A diversidade enriquece nossa escola.</li>
+            </ul>
+        </section>
+
+        <section id="apoio" class="card">
+            <h2> Onde Encontrar Apoio</h2>
+            <p>Se você ou um amigo estiver passando por momentos difíceis, não guarde isso sozinho:</p>
+            <div class="grid-ajuda">
+                <div class="box">
+                    <h3>Na Escola</h3>
+                    <p>Procure a Orientação Pedagógica, a Psicologia Escolar ou um professor de sua confiança.</p>
+                </div>
+                <div class="box">
+                    <h3>Apoio Nacional Gratuito</h3>
+                    <p><strong>CVV (Centro de Valorização da Vida):</strong> Ligue <strong>188</strong> ou acesse cvv.org.br (24 horas, gratuito e confidencial).</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="mural" class="card">
+            <h2> Mural da Empatia</h2>
+            <p>Deixe uma mensagem positiva para incentivar seus colegas de escola!</p>
+            
+            <form id="mensagem-form">
+                <input type="text" id="autor-input" placeholder="Seu nome (ou Anônimo)" required>
+                <textarea id="texto-input" placeholder="Escreva uma mensagem de acolhimento ou incentivo..." required></textarea>
+                <button type="submit">Publicar Mensagem</button>
+            </form>
+
+            <div id="mural-container" class="mural-posts">
+                <div class="post">
+                    <p class="post-texto">"Você é capaz de superar qualquer desafio. Boa semana de estudos a todos!"</p>
+                    <span class="post-autor">— Anônimo</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; Portal de Apoio ao Estudante — Criado para promover o respeito e a empatia.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
