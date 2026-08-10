@@ -1,9 +1,19 @@
-// Aguarda o documento carregar
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Funcionalidade do Modo Escuro
+    const themeBtn = document.getElementById('toggle-theme');
+    
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            themeBtn.textContent = isDark ? '☀️ Modo Claro' : '🌙 Modo Escuro';
+        });
+    }
+
+    // 2. Mural de Mensagens
     const form = document.getElementById('mensagem-form');
     const muralContainer = document.getElementById('mural-container');
 
-    // Manipula o envio do formulário do Mural da Empatia
     form.addEventListener('submit', (event) => {
         event.preventDefault();
 
@@ -14,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const texto = textoInput.value.trim();
 
         if (texto !== '') {
-            // Cria um novo elemento de postagem
             const novoPost = document.createElement('div');
             novoPost.classList.add('post');
 
@@ -23,10 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="post-autor">— ${autor}</span>
             `;
 
-            // Adiciona o novo post no topo do mural
             muralContainer.prepend(novoPost);
 
-            // Limpa os campos do formulário
             autorInput.value = '';
             textoInput.value = '';
         }
