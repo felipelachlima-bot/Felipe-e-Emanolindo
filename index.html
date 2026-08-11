@@ -8,19 +8,26 @@
 </head>
 <body>
 
-<header>
+    <header>
         <div class="logo">
-            <h1>🤝 Portal do Estudante</h1>
+            <h1>🤝 Ajuda Eficiente</h1>
         </div>
         <nav>
             <ul>
                 <li><a href="#inicio">Início</a></li>
                 <li><a href="#empatia">Convivência & Empatia</a></li>
+                <li><a href="#ia-assistente">Assistente IA</a></li>
                 <li><a href="#apoio">Apoio & Acolhimento</a></li>
                 <li><a href="#mural">Mural Interativo</a></li>
             </ul>
         </nav>
-        <button id="toggle-theme" class="theme-btn">🌙 Modo Escuro</button>
+        
+        <div class="header-controles">
+            <label for="color-picker" class="color-label">Cor:</label>
+            <input type="color" id="color-picker" value="#4a90e2">
+            
+            <button id="toggle-theme" class="theme-btn">🌙 Modo Escuro</button>
+        </div>
     </header>
 
     <section id="inicio" class="hero">
@@ -30,7 +37,7 @@
 
     <main class="container">
         <section id="empatia" class="card">
-            <h2> Respeito e Empatia na Escola</h2>
+            <h2>Respeito e Empatia na Escola</h2>
             <p>Construir um ambiente escolar saudável depende de todos nós. Praticar a empatia significa se colocar no lugar do outro antes de julgar ou agir.</p>
             <ul>
                 <li><strong>Escute sem julgar:</strong> Dê atenção ao colega que precisa conversar.</li>
@@ -39,8 +46,25 @@
             </ul>
         </section>
 
+        <section id="ia-assistente" class="card">
+            <h2>🤖 Assistente Virtual de Acolhimento</h2>
+            <p>Precisa de uma dica rápida sobre estudos, convivência ou organização? Pergunte à nossa IA!</p>
+            
+            <div class="chat-container">
+                <div id="chat-messages" class="chat-messages">
+                    <div class="message bot">
+                        <strong>Assistente IA:</strong> Olá! Sou o assistente virtual do Portal. Como posso te ajudar hoje? (Experimente perguntar sobre "bullying", "estudos" ou "ansiedade").
+                    </div>
+                </div>
+                <form id="chat-form" class="chat-form">
+                    <input type="text" id="chat-input" placeholder="Digite sua dúvida aqui..." required>
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+        </section>
+
         <section id="apoio" class="card">
-            <h2> Onde Encontrar Apoio</h2>
+            <h2>Onde Encontrar Apoio</h2>
             <p>Se você ou um amigo estiver passando por momentos difíceis, não guarde isso sozinho:</p>
             <div class="grid-ajuda">
                 <div class="box">
@@ -55,7 +79,7 @@
         </section>
 
         <section id="mural" class="card">
-            <h2> Mural da Empatia</h2>
+            <h2>Mural da Empatia</h2>
             <p>Deixe uma mensagem positiva para incentivar seus colegas de escola!</p>
             
             <form id="mensagem-form">

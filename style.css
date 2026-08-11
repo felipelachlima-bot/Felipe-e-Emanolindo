@@ -1,202 +1,92 @@
-/* Variáveis de Cores (Facilita o Modo Escuro/Claro) */
-:root {
-    --bg-color: #f0f4f8;
-    --card-bg: #ffffff;
-    --text-color: #2d3748;
-    --primary: #4a90e2;
-    --primary-hover: #357abd;
-    --accent: #f39c12;
-    --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Alternar Modo Escuro
+    const themeBtn = document.getElementById('toggle-theme');
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            themeBtn.textContent = isDark ? '☀️ Modo Claro' : '🌙 Modo Escuro';
+        });
+    }
 
-/* Modo Escuro */
-body.dark-mode {
-    --bg-color: #1a202c;
-    --card-bg: #2d3748;
-    --text-color: #edf2f7;
-    --primary: #3182ce;
-    --primary-hover: #2b6cb0;
-}
+    // 2. Seletor de Cor de Destaque
+    const colorPicker = document.getElementById('color-picker');
+    if (colorPicker) {
+        colorPicker.addEventListener('input', (e) => {
+            const newColor = e.target.value;
+            document.documentElement.style.setProperty('--primary', newColor);
+        });
+    }
 
-/* Base */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', 'Segoe UI', sans-serif;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
+    // 3. Assistente IA (Simulação de Respostas Automáticas)
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatMessages = document.getElementById('chat-messages');
 
-body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    line-height: 1.6;
-}
+    if (chatForm) {
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const text = chatInput.value.trim();
+            if (!text) return;
 
-/* Cabeçalho Pro */
-header {
-    background: var(--primary);
-    color: white;
-    padding: 1.2rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: var(--shadow);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
+            // Mensagem do Usuário
+            appendMessage('user', text);
+            chatInput.value = '';
 
-nav ul {
-    display: flex;
-    list-style: none;
-    gap: 20px;
-}
+            // Resposta Automática da IA
+            setTimeout(() => {
+                const response = getAIResponse(text.toLowerCase());
+                appendMessage('bot', response);
+            }, 600);
+        });
+    }
 
-nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-    position: relative;
-    padding-bottom: 4px;
-}
+    function appendMessage(sender, text) {
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('message', sender);
+        msgDiv.innerHTML = sender === 'bot' ? `<strong>Assistente IA:</strong> ${text}` : text;
+        chatMessages.appendChild(msgDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
 
-nav a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: white;
-    transition: width 0.3s ease;
-}
+    function getAIResponse(input) {
+        if (input.includes('bullying')) {
+            return "O bullying machuca de verdade. Se você estiver passando por isso ou viu acontecer, avise um professor ou a orientação escolar. Você não está sozinho!";
+        } else if (input.includes('estudo') || input.includes('estudar') || input.includes('nota')) {
+            return "Dica de estudo: Tente usar a técnica Pomodoro (25 min de foco total + 5 min de descanso). Isso melhora muito a concentração!";
+        } else if (input.includes('ansiedade') || input.includes('nervoso') || input.includes('triste')) {
+            return "Respire fundo: puxe o ar por 4 segundos, segure por 4 e solte por 4. Lembre-se que você pode conversar com o CVV no número 188 a qualquer hora.";
+        } else if (input.includes('oi') || input.includes('olá')) {
+            return "Olá! Como posso te ajudar hoje na sua rotina escolar?";
+        } else {
+            return "Estou aqui para apoiar! Tente perguntar sobre conselhos de estudos, como combater o bullying ou dicas para momentos de ansiedade.";
+        }
+    }
 
-nav a:hover::after {
-    width: 100%;
-}
+    // 4. Publicar no Mural da Empatia
+    const formMural = document.getElementById('mensagem-form');
+    const muralContainer = document.getElementById('mural-container');
 
-/* Botão de Tema */
-.theme-btn {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    backdrop-filter: blur(5px);
-}
+    if (formMural) {
+        formMural.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const autorInput = document.getElementById('autor-input');
+            const textoInput = document.getElementById('texto-input');
 
-.theme-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
+            const autor = autorInput.value.trim() || 'Anônimo';
+            const texto = textoInput.value.trim();
 
-/* Hero Banner Impactante */
-.hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    text-align: center;
-    padding: 4rem 1.5rem;
-    border-radius: 0 0 30px 30px;
-    margin-bottom: 2rem;
-}
-
-.hero h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-}
-
-/* Cards com Efeito Hover Magnífico */
-.container {
-    max-width: 950px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-}
-
-.card {
-    background: var(--card-bg);
-    padding: 2rem;
-    margin-bottom: 2rem;
-    border-radius: 16px;
-    box-shadow: var(--shadow);
-    transform: translateY(0);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
-}
-
-.card h2 {
-    color: var(--primary);
-    margin-bottom: 1rem;
-}
-
-/* Layout de Caixas de Ajuda */
-.grid-ajuda {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
-    margin-top: 1.5rem;
-}
-
-.box {
-    background: rgba(74, 144, 226, 0.08);
-    padding: 1.2rem;
-    border-left: 5px solid var(--primary);
-    border-radius: 8px;
-}
-
-/* Formulário Bonitão */
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 1rem;
-}
-
-input, textarea {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    padding: 0.9rem;
-    border: 2px solid transparent;
-    border-radius: 10px;
-    font-size: 1rem;
-    outline: none;
-}
-
-input:focus, textarea:focus {
-    border-color: var(--primary);
-}
-
-button[type="submit"] {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 0.9rem;
-    border-radius: 10px;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-button[type="submit"]:hover {
-    background: var(--primary-hover);
-}
-
-/* Cards de Post do Mural */
-.post {
-    background: rgba(243, 156, 18, 0.12);
-    border-left: 5px solid var(--accent);
-    padding: 1.2rem;
-    border-radius: 10px;
-    animation: fadeIn 0.4s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+            if (texto !== '') {
+                const novoPost = document.createElement('div');
+                novoPost.classList.add('post');
+                novoPost.innerHTML = `
+                    <p class="post-texto">"${texto}"</p>
+                    <span class="post-autor">— ${autor}</span>
+                `;
+                muralContainer.prepend(novoPost);
+                autorInput.value = '';
+                textoInput.value = '';
+            }
+        });
+    }
+});
