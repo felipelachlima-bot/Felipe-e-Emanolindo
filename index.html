@@ -3,102 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Apoio ao Estudante</title>
+    <title>Portal do Estudante | Acolhimento e Apoio</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
+    <header class="navbar">
         <div class="logo">
-            <h1>🤝 Ajuda Eficiente</h1>
+            <span class="logo-icon">🛡️</span>
+            <span class="logo-text">Portal<strong>Apoio</strong></span>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#inicio">Início</a></li>
-                <li><a href="#empatia">Convivência & Empatia</a></li>
-                <li><a href="#ia-assistente">Assistente IA</a></li>
-                <li><a href="#apoio">Apoio & Acolhimento</a></li>
-                <li><a href="#mural">Mural Interativo</a></li>
-            </ul>
-        </nav>
         
-        <div class="header-controles">
-            <label for="color-picker" class="color-label">Cor:</label>
-            <input type="color" id="color-picker" value="#4a90e2">
-            
-            <button id="toggle-theme" class="theme-btn">🌙 Modo Escuro</button>
+        <nav class="nav-links">
+            <a href="#inicio">Início</a>
+            <a href="#ia">Assistente IA</a>
+            <a href="#direitos">Respeito & Guia</a>
+            <a href="#mural">Mural</a>
+            <a href="#ajuda" class="btn-ajuda">Preciso de Ajuda</a>
+        </nav>
+
+        <div class="controls">
+            <div class="font-controls" title="Acessibilidade de Texto">
+                <button id="btn-decrease-font" aria-label="Diminuir fonte">A-</button>
+                <button id="btn-reset-font" aria-label="Tamanho normal">A</button>
+                <button id="btn-increase-font" aria-label="Aumentar fonte">A+</button>
+            </div>
+            <button id="btn-theme" class="theme-toggle" aria-label="Alternar tema">
+                <span class="theme-icon">🌙</span>
+            </button>
         </div>
     </header>
 
-    <section id="inicio" class="hero">
-        <h2>Um espaço seguro para você</h2>
-        <p>Incentivando o respeito, a empatia e o acolhimento dentro da nossa comunidade escolar.</p>
+    <section id="inicio" class="hero-section">
+        <div class="hero-content">
+            <span class="badge">Ambiente Escolar Seguro</span>
+            <h1>Um portal de respeito, empatia e escuta ativa.</h1>
+            <p>Conectando estudantes a conteúdos informativos, suporte psicológico e ferramentas interativas para o dia a dia na escola.</p>
+            <div class="hero-actions">
+                <a href="#ia" class="btn-primary">Conversar com IA</a>
+                <a href="#ajuda" class="btn-secondary">Canais de Apoio</a>
+            </div>
+        </div>
     </section>
 
-    <main class="container">
-        <section id="empatia" class="card">
-            <h2>Respeito e Empatia na Escola</h2>
-            <p>Construir um ambiente escolar saudável depende de todos nós. Praticar a empatia significa se colocar no lugar do outro antes de julgar ou agir.</p>
-            <ul>
-                <li><strong>Escute sem julgar:</strong> Dê atenção ao colega que precisa conversar.</li>
-                <li><strong>Diga não ao bullying:</strong> Não seja cúmplice de brincadeiras que machucam.</li>
-                <li><strong>Valorize as diferenças:</strong> A diversidade enriquece nossa escola.</li>
-            </ul>
-        </section>
+    <main class="main-container">
 
-        <section id="ia-assistente" class="card">
-            <h2>🤖 Assistente Virtual de Acolhimento</h2>
-            <p>Precisa de uma dica rápida sobre estudos, convivência ou organização? Pergunte à nossa IA!</p>
-            
-            <div class="chat-container">
-                <div id="chat-messages" class="chat-messages">
-                    <div class="message bot">
-                        <strong>Assistente IA:</strong> Olá! Sou o assistente virtual do Portal. Como posso te ajudar hoje? (Experimente perguntar sobre "bullying", "estudos" ou "ansiedade").
+        <section id="ia" class="section-card">
+            <div class="section-header">
+                <h2>🤖 Assistente Virtual de Acolhimento</h2>
+                <p>Tire dúvidas sobre convivência escolar, técnicas de foco ou desabafe de forma anônima.</p>
+            </div>
+
+            <div class="chat-wrapper">
+                <div id="chat-box" class="chat-box">
+                    <div class="chat-msg bot-msg">
+                        <span class="chat-author">Assistente IA</span>
+                        <p>Olá! Sou seu assistente do portal. Como você está se sentindo hoje? Digite dúvidas sobre <strong>estudos</strong>, <strong>bullying</strong> ou <strong>ansiedade</strong>.</p>
                     </div>
                 </div>
-                <form id="chat-form" class="chat-form">
-                    <input type="text" id="chat-input" placeholder="Digite sua dúvida aqui..." required>
-                    <button type="submit">Enviar</button>
+                <form id="chat-form" class="chat-input-area">
+                    <input type="text" id="chat-user-input" placeholder="Digite sua mensagem aqui..." autocomplete="off" required>
+                    <button type="submit" class="btn-send">Enviar</button>
                 </form>
             </div>
         </section>
 
-        <section id="apoio" class="card">
-            <h2>Onde Encontrar Apoio</h2>
-            <p>Se você ou um amigo estiver passando por momentos difíceis, não guarde isso sozinho:</p>
-            <div class="grid-ajuda">
-                <div class="box">
-                    <h3>Na Escola</h3>
-                    <p>Procure a Orientação Pedagógica, a Psicologia Escolar ou um professor de sua confiança.</p>
+        <section id="direitos" class="section-card">
+            <div class="section-header">
+                <h2> Boas Práticas e Convivência</h2>
+                <p>Pequenas atitudes que tornam nossa escola um lugar melhor para todos.</p>
+            </div>
+            <div class="cards-grid">
+                <div class="info-card">
+                    <div class="card-icon">🤝</div>
+                    <h3>Empatia Ativa</h3>
+                    <p>Antes de julgar ou fazer piadas, tente entender a perspectiva e a realidade do seu colega.</p>
                 </div>
-                <div class="box">
-                    <h3>Apoio Nacional Gratuito</h3>
-                    <p><strong>CVV (Centro de Valorização da Vida):</strong> Ligue <strong>188</strong> ou acesse cvv.org.br (24 horas, gratuito e confidencial).</p>
+                <div class="info-card">
+                    <div class="card-icon">🚫</div>
+                    <h3>Combate ao Bullying</h3>
+                    <p>Não espalhe boatos nem apoie brincadeiras ofensivas. Se presenciar abusos, busque a direção ou orientação.</p>
+                </div>
+                <div class="info-card">
+                    <div class="card-icon">🌱</div>
+                    <h3>Acolhimento</h3>
+                    <p>Inclua novos alunos, respeite a diversidade e seja uma presença segura na sua turma.</p>
                 </div>
             </div>
         </section>
 
-        <section id="mural" class="card">
-            <h2>Mural da Empatia</h2>
-            <p>Deixe uma mensagem positiva para incentivar seus colegas de escola!</p>
-            
-            <form id="mensagem-form">
-                <input type="text" id="autor-input" placeholder="Seu nome (ou Anônimo)" required>
-                <textarea id="texto-input" placeholder="Escreva uma mensagem de acolhimento ou incentivo..." required></textarea>
-                <button type="submit">Publicar Mensagem</button>
+        <section id="mural" class="section-card">
+            <div class="section-header">
+                <h2> Mural do Incentivo</h2>
+                <p>Compartilhe mensagens motivacionais com outros estudantes.</p>
+            </div>
+
+            <form id="mural-form" class="mural-form">
+                <input type="text" id="mural-nome" placeholder="Seu nome ou apelido (Opcional)">
+                <textarea id="mural-texto" placeholder="Escreva uma mensagem de apoio ou incentivo..." rows="3" required></textarea>
+                <button type="submit" class="btn-primary">Publicar no Mural</button>
             </form>
 
-            <div id="mural-container" class="mural-posts">
-                <div class="post">
-                    <p class="post-texto">"Você é capaz de superar qualquer desafio. Boa semana de estudos a todos!"</p>
-                    <span class="post-autor">— Anônimo</span>
+            <div id="mural-list" class="mural-grid">
+                <div class="mural-item">
+                    <p class="mural-text">"Sua jornada na escola não é uma corrida. Vá no seu tempo e confie no seu processo!"</p>
+                    <span class="mural-author">— Anônimo</span>
                 </div>
             </div>
         </section>
+
+        <section id="ajuda" class="section-card highlight-card">
+            <h2>🆘 Onde Encontrar Ajuda Rápida</h2>
+            <p>Se estiver enfrentando uma situação crítica, não passe por isso sozinho. Busque suporte imediato:</p>
+            <div class="help-grid">
+                <div class="help-item">
+                    <h4>Na Escola</h4>
+                    <p>Procure a equipe de Orientação Pedagógica, Psicologia Escolar ou um professor de confiança.</p>
+                </div>
+                <div class="help-item">
+                    <h4>CVV - Centro de Valorização da Vida</h4>
+                    <p>Atendimento gratuito, confidencial e 24h por telefone ligando para <strong>188</strong> ou via chat no site <strong>cvv.org.br</strong>.</p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <footer>
-        <p>&copy; Portal de Apoio ao Estudante — Criado para promover o respeito e a empatia.</p>
+    <footer class="footer">
+        <p>&copy; Portal do Estudante — Desenvolvido para a comunidade escolar.</p>
     </footer>
 
     <script src="script.js"></script>

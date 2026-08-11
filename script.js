@@ -1,241 +1,110 @@
-/* Variáveis de Cores */
-:root {
-    --bg-color: #f0f4f8;
-    --card-bg: #ffffff;
-    --text-color: #2d3748;
-    --primary: #4a90e2;
-    --primary-hover: #357abd;
-    --accent: #f39c12;
-    --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-}
+document.addEventListener('DOMContentLoaded', () => {
 
-/* Modo Escuro */
-body.dark-mode {
-    --bg-color: #1a202c;
-    --card-bg: #2d3748;
-    --text-color: #edf2f7;
-}
+    // 1. MODALIDADE TEMA ESCURO / CLARO
+    const btnTheme = document.getElementById('btn-theme');
+    const themeIcon = document.querySelector('.theme-icon');
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
+    btnTheme.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        themeIcon.textContent = isDark ? '☀️' : '🌙';
+    });
 
-body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    line-height: 1.6;
-}
+    // 2. CONTROLE DE TAMANHO DE FONTE (ACESSIBILIDADE)
+    let currentFontSize = 16; // em px
+    const minFont = 12;
+    const maxFont = 22;
 
-/* Cabeçalho */
-header {
-    background: var(--primary);
-    color: white;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    box-shadow: var(--shadow);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
+    const btnDecrease = document.getElementById('btn-decrease-font');
+    const btnReset = document.getElementById('btn-reset-font');
+    const btnIncrease = document.getElementById('btn-increase-font');
 
-nav ul {
-    display: flex;
-    list-style: none;
-    gap: 15px;
-}
+    btnIncrease.addEventListener('click', () => {
+        if (currentFontSize < maxFont) {
+            currentFontSize += 2;
+            document.documentElement.style.setProperty('--base-font-size', `${currentFontSize}px`);
+        }
+    });
 
-nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-}
+    btnDecrease.addEventListener('click', () => {
+        if (currentFontSize > minFont) {
+            currentFontSize -= 2;
+            document.documentElement.style.setProperty('--base-font-size', `${currentFontSize}px`);
+        }
+    });
 
-.header-controles {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+    btnReset.addEventListener('click', () => {
+        currentFontSize = 16;
+        document.documentElement.style.setProperty('--base-font-size', '16px');
+    });
 
-.color-label {
-    font-size: 0.9rem;
-    font-weight: bold;
-}
+    // 3. ASSISTENTE VIRTUAL IA
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-user-input');
+    const chatBox = document.getElementById('chat-box');
 
-#color-picker {
-    border: none;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    background: none;
-}
+    chatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const text = chatInput.value.trim();
+        if (!text) return;
 
-.theme-btn {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-}
+        // Renderiza mensagem do usuário
+        appendMessage('Você', text, 'user-msg');
+        chatInput.value = '';
 
-/* Banner */
-.hero {
-    background: var(--primary);
-    color: white;
-    text-align: center;
-    padding: 3rem 1rem;
-    filter: brightness(0.9);
-}
+        // Simula resposta da IA com delay de digitação
+        setTimeout(() => {
+            const aiReply = generateAIResponse(text.toLowerCase());
+            appendMessage('Assistente IA', aiReply, 'bot-msg');
+        }, 500);
+    });
 
-/* Main Container */
-.container {
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-}
+    function appendMessage(author, message, className) {
+        const msgElement = document.createElement('div');
+        msgElement.classList.add('chat-msg', className);
+        msgElement.innerHTML = `<span class="chat-author">${author}</span><p>${message}</p>`;
+        chatBox.appendChild(msgElement);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
 
-.card {
-    background: var(--card-bg);
-    padding: 1.8rem;
-    margin-bottom: 1.5rem;
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-}
+    function generateAIResponse(input) {
+        if (input.includes('bullying') || input.includes('provocacao')) {
+            return "O bullying não deve ser tolerado. Guardar para si só aumenta o peso. Converse com o orientador pedagógico da sua escola ou denuncie no canal de apoio da instituição.";
+        } else if (input.includes('estudo') || input.includes('nota') || input.includes('foco')) {
+            return "Uma dica prática: divida suas tarefas em blocos de 25 minutos de estudo ativo e 5 minutos de pausa (Técnica Pomodoro). Isso alivia a sobrecarga!";
+        } else if (input.includes('ansiedade') || input.includes('medo') || input.includes('triste')) {
+            return "Sentir-se sobrecarregado é humano. Lembre-se de dar uma pausa, respirar profundamente e buscar alguém de confiança para conversar. O CVV atende no número 188 se precisar de escuta.";
+        } else if (input.includes('oi') || input.includes('ola')) {
+            return "Olá! Como posso apoiar você hoje na sua jornada escolar?";
+        } else {
+            return "Entendi seu ponto. Lembre-se que este portal foi feito para ser um espaço de escuta e segurança. Como mais posso te ajudar?";
+        }
+    }
 
-.card h2 {
-    color: var(--primary);
-    margin-bottom: 1rem;
-}
+    // 4. MURAL DA EMPATIA
+    const muralForm = document.getElementById('mural-form');
+    const muralList = document.getElementById('mural-list');
 
-/* Chat da IA */
-.chat-container {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    overflow: hidden;
-    background: var(--bg-color);
-}
+    muralForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const nomeInput = document.getElementById('mural-nome');
+        const textoInput = document.getElementById('mural-texto');
 
-.chat-messages {
-    height: 200px;
-    padding: 1rem;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+        const nome = nomeInput.value.trim() || 'Anônimo';
+        const texto = textoInput.value.trim();
 
-.message {
-    padding: 0.6rem 1rem;
-    border-radius: 8px;
-    max-width: 80%;
-}
+        if (texto) {
+            const newPost = document.createElement('div');
+            newPost.classList.add('mural-item');
+            newPost.innerHTML = `
+                <p class="mural-text">"${texto}"</p>
+                <span class="mural-author">— ${nome}</span>
+            `;
 
-.message.bot {
-    background: var(--card-bg);
-    align-self: flex-start;
-    border-left: 4px solid var(--primary);
-}
+            muralList.prepend(newPost);
+            nomeInput.value = '';
+            textoInput.value = '';
+        }
+    });
 
-.message.user {
-    background: var(--primary);
-    color: white;
-    align-self: flex-end;
-}
-
-.chat-form {
-    display: flex;
-    border-top: 1px solid #ccc;
-}
-
-.chat-form input {
-    flex: 1;
-    border: none;
-    border-radius: 0;
-}
-
-.chat-form button {
-    border-radius: 0;
-}
-
-/* Grid e Formulários */
-.grid-ajuda {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
-    margin-top: 1rem;
-}
-
-.box {
-    background: rgba(74, 144, 226, 0.1);
-    padding: 1rem;
-    border-left: 4px solid var(--primary);
-    border-radius: 4px;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 1rem;
-}
-
-input, textarea {
-    padding: 0.8rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background: var(--card-bg);
-    color: var(--text-color);
-}
-
-button {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 0.8rem;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-button:hover {
-    filter: brightness(0.9);
-}
-
-.mural-posts {
-    margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.post {
-    background: rgba(243, 156, 18, 0.15);
-    border-left: 4px solid var(--accent);
-    padding: 1rem;
-    border-radius: 6px;
-}
-
-.post-autor {
-    display: block;
-    margin-top: 5px;
-    font-size: 0.85rem;
-    opacity: 0.8;
-}
-
-footer {
-    text-align: center;
-    padding: 1.5rem;
-    background: var(--primary);
-    color: white;
-    margin-top: 2rem;
-}
+});

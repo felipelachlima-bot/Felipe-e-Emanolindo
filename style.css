@@ -1,92 +1,367 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. Alternar Modo Escuro
-    const themeBtn = document.getElementById('toggle-theme');
-    if (themeBtn) {
-        themeBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            themeBtn.textContent = isDark ? '☀️ Modo Claro' : '🌙 Modo Escuro';
-        });
-    }
+/* RESET E VARIÁVEIS DE SISTEMA */
+:root {
+    --bg-main: #f4f6f9;
+    --bg-card: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --border-color: #e2e8f0;
+    --shadow: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -4px rgba(0,0,0,0.05);
+    --base-font-size: 16px;
+}
 
-    // 2. Seletor de Cor de Destaque
-    const colorPicker = document.getElementById('color-picker');
-    if (colorPicker) {
-        colorPicker.addEventListener('input', (e) => {
-            const newColor = e.target.value;
-            document.documentElement.style.setProperty('--primary', newColor);
-        });
-    }
+/* TEMA ESCURO */
+body.dark-mode {
+    --bg-main: #0f172a;
+    --bg-card: #1e293b;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --primary: #3b82f6;
+    --primary-hover: #60a5fa;
+    --border-color: #334155;
+    --shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
+}
 
-    // 3. Assistente IA (Simulação de Respostas Automáticas)
-    const chatForm = document.getElementById('chat-form');
-    const chatInput = document.getElementById('chat-input');
-    const chatMessages = document.getElementById('chat-messages');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
 
-    if (chatForm) {
-        chatForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const text = chatInput.value.trim();
-            if (!text) return;
+html {
+    font-size: var(--base-font-size);
+    scroll-behavior: smooth;
+}
 
-            // Mensagem do Usuário
-            appendMessage('user', text);
-            chatInput.value = '';
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    line-height: 1.6;
+}
 
-            // Resposta Automática da IA
-            setTimeout(() => {
-                const response = getAIResponse(text.toLowerCase());
-                appendMessage('bot', response);
-            }, 600);
-        });
-    }
+/* NAVBAR */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.8rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+}
 
-    function appendMessage(sender, text) {
-        const msgDiv = document.createElement('div');
-        msgDiv.classList.add('message', sender);
-        msgDiv.innerHTML = sender === 'bot' ? `<strong>Assistente IA:</strong> ${text}` : text;
-        chatMessages.appendChild(msgDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.2rem;
+}
 
-    function getAIResponse(input) {
-        if (input.includes('bullying')) {
-            return "O bullying machuca de verdade. Se você estiver passando por isso ou viu acontecer, avise um professor ou a orientação escolar. Você não está sozinho!";
-        } else if (input.includes('estudo') || input.includes('estudar') || input.includes('nota')) {
-            return "Dica de estudo: Tente usar a técnica Pomodoro (25 min de foco total + 5 min de descanso). Isso melhora muito a concentração!";
-        } else if (input.includes('ansiedade') || input.includes('nervoso') || input.includes('triste')) {
-            return "Respire fundo: puxe o ar por 4 segundos, segure por 4 e solte por 4. Lembre-se que você pode conversar com o CVV no número 188 a qualquer hora.";
-        } else if (input.includes('oi') || input.includes('olá')) {
-            return "Olá! Como posso te ajudar hoje na sua rotina escolar?";
-        } else {
-            return "Estou aqui para apoiar! Tente perguntar sobre conselhos de estudos, como combater o bullying ou dicas para momentos de ansiedade.";
-        }
-    }
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
 
-    // 4. Publicar no Mural da Empatia
-    const formMural = document.getElementById('mensagem-form');
-    const muralContainer = document.getElementById('mural-container');
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: 500;
+}
 
-    if (formMural) {
-        formMural.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const autorInput = document.getElementById('autor-input');
-            const textoInput = document.getElementById('texto-input');
+.nav-links a:hover {
+    color: var(--primary);
+}
 
-            const autor = autorInput.value.trim() || 'Anônimo';
-            const texto = textoInput.value.trim();
+.btn-ajuda {
+    background-color: #ef4444;
+    color: white !important;
+    padding: 0.4rem 0.9rem;
+    border-radius: 6px;
+    font-weight: bold !important;
+}
 
-            if (texto !== '') {
-                const novoPost = document.createElement('div');
-                novoPost.classList.add('post');
-                novoPost.innerHTML = `
-                    <p class="post-texto">"${texto}"</p>
-                    <span class="post-autor">— ${autor}</span>
-                `;
-                muralContainer.prepend(novoPost);
-                autorInput.value = '';
-                textoInput.value = '';
-            }
-        });
-    }
-});
+/* CONTROLES DE ACESSIBILIDADE */
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.font-controls {
+    display: flex;
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 2px;
+}
+
+.font-controls button {
+    background: none;
+    border: none;
+    color: var(--text-main);
+    padding: 4px 8px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.font-controls button:hover {
+    background: var(--border-color);
+}
+
+.theme-toggle {
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+/* HERO SECTION */
+.hero-section {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: white;
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.badge {
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.hero-section h1 {
+    font-size: 2.5rem;
+    margin: 1rem 0;
+    line-height: 1.2;
+}
+
+.hero-section p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn-primary, .btn-secondary {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: white;
+    color: #1e3a8a;
+}
+
+.btn-secondary {
+    background-color: rgba(255,255,255,0.15);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* CONTAINER PRINCIPAL */
+.main-container {
+    max-width: 1000px;
+    margin: -2rem auto 3rem auto;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.section-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.section-header h2 {
+    color: var(--text-main);
+    font-size: 1.5rem;
+}
+
+.section-header p {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+/* CHAT IA */
+.chat-wrapper {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--bg-main);
+}
+
+.chat-box {
+    height: 250px;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.chat-msg {
+    max-width: 80%;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    line-height: 1.4;
+}
+
+.bot-msg {
+    background-color: var(--bg-card);
+    border-left: 4px solid var(--primary);
+    align-self: flex-start;
+}
+
+.user-msg {
+    background-color: var(--primary);
+    color: white;
+    align-self: flex-end;
+}
+
+.chat-author {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.chat-input-area {
+    display: flex;
+    border-top: 1px solid var(--border-color);
+}
+
+.chat-input-area input {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    outline: none;
+}
+
+.btn-send {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 0 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* CARDS DE INFORMAÇÃO */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.info-card {
+    background-color: var(--bg-main);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.card-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* MURAL */
+.mural-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.mural-form input, .mural-form textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+
+.mural-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mural-item {
+    background-color: var(--bg-main);
+    border-left: 4px solid #f59e0b;
+    padding: 1rem;
+    border-radius: 6px;
+}
+
+.mural-author {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 5px;
+}
+
+/* HIGHLIGHT CARD */
+.highlight-card {
+    border-left: 6px solid #ef4444;
+}
+
+.help-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.help-item {
+    background-color: var(--bg-main);
+    padding: 1rem;
+    border-radius: 6px;
+}
+
+.footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border-color);
+}
+
+@media (max-width: 768px) {
+    .navbar { flex-direction: column; gap: 1rem; }
+    .hero-section h1 { font-size: 1.8rem; }
+}
