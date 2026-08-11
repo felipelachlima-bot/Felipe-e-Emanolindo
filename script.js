@@ -1,110 +1,74 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // 1. MODALIDADE TEMA ESCURO / CLARO
-    const btnTheme = document.getElementById('btn-theme');
-    const themeIcon = document.querySelector('.theme-icon');
-
-    btnTheme.addEventListener('click', () => {
+    // 1. TEMA DARK/LIGHT
+    const themeBtn = document.getElementById('theme-toggle');
+    themeBtn.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
-        const isDark = document.body.classList.contains('dark-mode');
-        themeIcon.textContent = isDark ? '☀️' : '🌙';
+        themeBtn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
     });
 
-    // 2. CONTROLE DE TAMANHO DE FONTE (ACESSIBILIDADE)
-    let currentFontSize = 16; // em px
-    const minFont = 12;
-    const maxFont = 22;
+    // 2. AUMENTO DE FONTE
+    let fontSize = 16;
+    const root = document.documentElement;
 
-    const btnDecrease = document.getElementById('btn-decrease-font');
-    const btnReset = document.getElementById('btn-reset-font');
-    const btnIncrease = document.getElementById('btn-increase-font');
-
-    btnIncrease.addEventListener('click', () => {
-        if (currentFontSize < maxFont) {
-            currentFontSize += 2;
-            document.documentElement.style.setProperty('--base-font-size', `${currentFontSize}px`);
-        }
+    document.getElementById('font-up').addEventListener('click', () => {
+        if (fontSize < 24) { fontSize += 2; root.style.setProperty('--font-base', fontSize + 'px'); }
     });
 
-    btnDecrease.addEventListener('click', () => {
-        if (currentFontSize > minFont) {
-            currentFontSize -= 2;
-            document.documentElement.style.setProperty('--base-font-size', `${currentFontSize}px`);
-        }
+    document.getElementById('font-down').addEventListener('click', () => {
+        if (fontSize > 12) { fontSize -= 2; root.style.setProperty('--font-base', fontSize + 'px'); }
     });
 
-    btnReset.addEventListener('click', () => {
-        currentFontSize = 16;
-        document.documentElement.style.setProperty('--base-font-size', '16px');
-    });
-
-    // 3. ASSISTENTE VIRTUAL IA
+    // 3. CHAT IA (SIMULAÇÃO)
     const chatForm = document.getElementById('chat-form');
-    const chatInput = document.getElementById('chat-user-input');
-    const chatBox = document.getElementById('chat-box');
+    const chatInput = document.getElementById('chat-input');
+    const chatOutput = document.getElementById('chat-output');
 
     chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const text = chatInput.value.trim();
-        if (!text) return;
+        const msg = chatInput.value.trim();
+        if (!msg) return;
 
-        // Renderiza mensagem do usuário
-        appendMessage('Você', text, 'user-msg');
+        // Adiciona msg do usuário
+        addMessage(msg, 'user');
         chatInput.value = '';
 
-        // Simula resposta da IA com delay de digitação
+        // Resposta da IA
         setTimeout(() => {
-            const aiReply = generateAIResponse(text.toLowerCase());
-            appendMessage('Assistente IA', aiReply, 'bot-msg');
-        }, 500);
+            const reply = getAIResponse(msg.toLowerCase());
+            addMessage(reply, 'bot');
+        }, 600);
     });
 
-    function appendMessage(author, message, className) {
-        const msgElement = document.createElement('div');
-        msgElement.classList.add('chat-msg', className);
-        msgElement.innerHTML = `<span class="chat-author">${author}</span><p>${message}</p>`;
-        chatBox.appendChild(msgElement);
-        chatBox.scrollTop = chatBox.scrollHeight;
+    function addMessage(text, side) {
+        const div = document.createElement('div');
+        div.className = `msg ${side}`;
+        div.textContent = text;
+        chatOutput.appendChild(div);
+        chatOutput.scrollTop = chatOutput.scrollHeight;
     }
 
-    function generateAIResponse(input) {
-        if (input.includes('bullying') || input.includes('provocacao')) {
-            return "O bullying não deve ser tolerado. Guardar para si só aumenta o peso. Converse com o orientador pedagógico da sua escola ou denuncie no canal de apoio da instituição.";
-        } else if (input.includes('estudo') || input.includes('nota') || input.includes('foco')) {
-            return "Uma dica prática: divida suas tarefas em blocos de 25 minutos de estudo ativo e 5 minutos de pausa (Técnica Pomodoro). Isso alivia a sobrecarga!";
-        } else if (input.includes('ansiedade') || input.includes('medo') || input.includes('triste')) {
-            return "Sentir-se sobrecarregado é humano. Lembre-se de dar uma pausa, respirar profundamente e buscar alguém de confiança para conversar. O CVV atende no número 188 se precisar de escuta.";
-        } else if (input.includes('oi') || input.includes('ola')) {
-            return "Olá! Como posso apoiar você hoje na sua jornada escolar?";
-        } else {
-            return "Entendi seu ponto. Lembre-se que este portal foi feito para ser um espaço de escuta e segurança. Como mais posso te ajudar?";
-        }
+    function getAIResponse(input) {
+        if (input.includes('bullying')) return "Bullying é sério. Se estiver passando por isso, fale com um professor agora. Você não está sozinho!";
+        if (input.includes('ansiedade') || input.includes('triste')) return "Respire fundo. Coisas ruins passam. Se estiver difícil, ligue para o 188.";
+        if (input.includes('estudo')) return "Dica: Tente estudar 25 minutos e descansar 5. Isso ajuda o cérebro a focar!";
+        return "Estou aqui para te ouvir. Pode contar comigo!";
     }
 
-    // 4. MURAL DA EMPATIA
+    // 4. MURAL
     const muralForm = document.getElementById('mural-form');
-    const muralList = document.getElementById('mural-list');
+    const muralCont = document.getElementById('mural-container');
 
     muralForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const nomeInput = document.getElementById('mural-nome');
-        const textoInput = document.getElementById('mural-texto');
+        const nome = document.getElementById('mural-nome').value || "Anônimo";
+        const msg = document.getElementById('mural-msg').value;
 
-        const nome = nomeInput.value.trim() || 'Anônimo';
-        const texto = textoInput.value.trim();
-
-        if (texto) {
-            const newPost = document.createElement('div');
-            newPost.classList.add('mural-item');
-            newPost.innerHTML = `
-                <p class="mural-text">"${texto}"</p>
-                <span class="mural-author">— ${nome}</span>
-            `;
-
-            muralList.prepend(newPost);
-            nomeInput.value = '';
-            textoInput.value = '';
-        }
+        const post = document.createElement('div');
+        post.className = 'post';
+        post.innerHTML = `<strong>${nome}</strong><p>${msg}</p>`;
+        
+        muralCont.prepend(post);
+        muralForm.reset();
     });
-
 });
